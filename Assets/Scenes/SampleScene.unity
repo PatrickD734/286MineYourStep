@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d097ce1813550054eb581b31e9f7b9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  mouseSensitivity: 10
+  mouseSensitivity: 15
   playerBody: {fileID: 374058910}
   minVerticalAngle: -90
   maxVerticalAngle: 90
@@ -285,9 +285,9 @@ GameObject:
   - component: {fileID: 374058909}
   - component: {fileID: 374058908}
   - component: {fileID: 374058907}
-  - component: {fileID: 374058911}
   - component: {fileID: 374058912}
   - component: {fileID: 374058914}
+  - component: {fileID: 374058915}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -390,22 +390,6 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &374058911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 374058906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cacfee33ac3b9e240b45be10838bbf89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 3
-  gravity: -9.81
-  characterController: {fileID: 374058912}
-  cam: {fileID: 330585545}
 --- !u!143 &374058912
 CharacterController:
   m_ObjectHideFlags: 0
@@ -461,6 +445,22 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &374058915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374058906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cacfee33ac3b9e240b45be10838bbf89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  speed: 5
+  gravity: -9.81
+  characterController: {fileID: 374058912}
+  cam: {fileID: 330585545}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
