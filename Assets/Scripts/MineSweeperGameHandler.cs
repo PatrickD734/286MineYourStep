@@ -28,7 +28,7 @@ public class MineSweeperGameHandler : MonoBehaviour
                 TileComponent tile = clickedObject.GetComponent<TileComponent>();
                 if (tile != null)
                 {
-                    HandleTileClick(tile.x, tile.y);
+                    HandleTileClick(tile.x, tile.y, clickedObject);
                     Debug.Log("Tile hit!");
                 }
                 else
@@ -54,16 +54,18 @@ public class MineSweeperGameHandler : MonoBehaviour
         return Vector3.zero;
     }
 
-    private void HandleTileClick(int x, int y)
+    private void HandleTileClick(int x, int y, GameObject tile)
     {
         MapGridObject mapGridObject = map.GetGrid().GetGridObject(x, y);
         if (mapGridObject == null) return;
 
-        MapGridObject.Type gridType = map.RevealGridPosition(mapGridObject);
-
-        if(gridType == MapGridObject.Type.Mine)
+        if (!tile.GetComponent<TileComponent>().isFlagged)
         {
-            Debug.Log("Mine found!");
+            MapGridObject.Type gridType = map.RevealGridPosition(mapGridObject);
+        }
+        else
+        {
+            Debug.Log("Flag");
         }
     }
 }
