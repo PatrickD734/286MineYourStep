@@ -109,6 +109,7 @@ public class GridPrefabVisual : MonoBehaviour
             switch (mapGridObject.GetGridType())
             {
                 default:
+                //Game end here
                 case MapGridObject.Type.Mine:
                     indicatorText.SetText("Mine");
                     break;
