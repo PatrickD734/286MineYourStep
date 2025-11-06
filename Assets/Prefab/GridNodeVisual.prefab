@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f732886c0688924ba3be63fca3c44ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileComponent
+  rend: {fileID: 1748320270538399270}
+  isFlagged: 0
   x: 0
   y: 0
 --- !u!65 &2079518746930247677
