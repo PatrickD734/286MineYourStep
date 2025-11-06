@@ -114,7 +114,7 @@ public class GridPrefabVisual : MonoBehaviour
                     indicatorText.SetText("Mine");
                     break;
                 case MapGridObject.Type.Empty:
-                    indicatorText.SetText("Emp");
+                    indicatorText.SetText("Empty");
                     break;
                 case MapGridObject.Type.Mine_Num1:
                     indicatorText.SetText("1");
