@@ -8,6 +8,7 @@ public class MineSweeperGameHandler : MonoBehaviour
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     private Map map;
     private bool isGameActive;
+    int flagCount = 40;
 
     void Start()
     {
@@ -87,11 +88,10 @@ public class MineSweeperGameHandler : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     private void HandleFlagClick(int x, int y, GameObject tile)
     {
         TileComponent tileComponent = tile.GetComponent<TileComponent>();
-        if (!tileComponent.isFlagged)
+        if (!tileComponent.isFlagged && flagCount > 0)
         {
             //Gets the flag prefab from the GameObject tile to set active true
             Transform flagTransform = tile.transform.Find("Flag");
@@ -101,6 +101,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             }
             //set tile component is flagged to true
             tileComponent.isFlagged = true;
+            flagCount--;
         }
         else
         {
@@ -112,23 +113,8 @@ public class MineSweeperGameHandler : MonoBehaviour
             }
             //set tile component is flagged to false
             tileComponent.isFlagged = false;
+            flagCount++;
         }
     }
 
 }
-=======
-    /*
-    private void HandleFlagClick(int x, int y, GameObject tile)
-    {
-       if (!tile.GetComponent<TileComponent>().isFlagged)
-       {
-            //Add code to get the flag prefab from the GameObject tile to set active true
-            set tile component is flagged to true
-       }else{
-            //Add code to get the flag prefab from the GameObject tile to set active false
-            set tile component is flagged to false
-       }
-    }
-    */
-}
->>>>>>> origin/main
