@@ -7,6 +7,7 @@ public class TileComponent : MonoBehaviour
     private Color oldColor;
     private Color hoverColor = Color.white;
     public bool isFlagged;
+    public GameObject flagInstance;
 
     public int x;
     public int y;

@@ -4,9 +4,11 @@ public class MineSweeperGameHandler : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     private Map map;
     private bool isGameActive;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -21,7 +23,7 @@ public class MineSweeperGameHandler : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out RaycastHit hitInfo))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
                 Debug.Log("hit object: " + hitInfo.collider.name);
                 GameObject clickedObject = hitInfo.collider.gameObject;
@@ -39,6 +41,21 @@ public class MineSweeperGameHandler : MonoBehaviour
             else
             {
                 Debug.Log("Clicked nothing");
+            }
+        }
+        // Right Click Detection
+        else if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                GameObject clickedObject = hitInfo.collider.gameObject;
+                TileComponent tile = clickedObject.GetComponent<TileComponent>();
+                if (tile != null)
+                {
+                    HandleFlagClick(tile.x, tile.y, clickedObject);
+                    Debug.Log("Flag handled!");
+                }
             }
         }
     }
@@ -68,4 +85,32 @@ public class MineSweeperGameHandler : MonoBehaviour
             Debug.Log("Flag");
         }
     }
+
+    private void HandleFlagClick(int x, int y, GameObject tile)
+    {
+        TileComponent tileComponent = tile.GetComponent<TileComponent>();
+        if (!tileComponent.isFlagged)
+        {
+            //Gets the flag prefab from the GameObject tile to set active true
+            Transform flagTransform = tile.transform.Find("Flag");
+            if (flagTransform != null)
+            {
+                flagTransform.gameObject.SetActive(true);
+            }
+            //set tile component is flagged to true
+            tileComponent.isFlagged = true;
+        }
+        else
+        {
+            //Gets the flag prefab from the GameObject tile to set active false
+            Transform flagTransform = tile.transform.Find("Flag");
+            if (flagTransform != null)
+            {
+                flagTransform.gameObject.SetActive(false);
+            }
+            //set tile component is flagged to false
+            tileComponent.isFlagged = false;
+        }
+    }
+
 }
