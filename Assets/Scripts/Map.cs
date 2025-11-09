@@ -58,6 +58,10 @@ public class Map
         }
     }
     
+    private List<MapGridObject> GetNeighbourList(MapGridObject mapGridObject)
+    {
+        return GetNeighbourList(mapGridObject.GetX(), mapGridObject.GetY());
+    }
     private List<MapGridObject> GetNeighbourList(int x, int y)
     {
         List<MapGridObject> neighbourList = new List<MapGridObject>();
@@ -102,6 +106,35 @@ public class Map
     public MapGridObject.Type RevealGridPosition(MapGridObject mapGridObject)
     {
         mapGridObject.Reveal();
+        if (mapGridObject.GetGridType() == MapGridObject.Type.Empty)
+        {
+            List<MapGridObject> checkNeighbourList = new List<MapGridObject>();
+            List<MapGridObject> neighbourList = new List<MapGridObject>();
+            neighbourList.Add(mapGridObject);
+
+            while (neighbourList.Count > 0)
+            {
+                MapGridObject checkMapGridObject = neighbourList[0];
+                neighbourList.RemoveAt(0);
+                checkNeighbourList.Add(checkMapGridObject);
+                foreach (MapGridObject neighbour in GetNeighbourList(checkMapGridObject))
+                {
+                    if (neighbour.GetGridType() != MapGridObject.Type.Mine)
+                    {
+                        neighbour.Reveal();
+                        if (neighbour.GetGridType() == MapGridObject.Type.Empty)
+                        {
+                            // If empty, check add it to queue
+                            if (!checkNeighbourList.Contains(neighbour))
+                            {
+                                neighbourList.Add(neighbour);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
         return mapGridObject.GetGridType();
     }
 

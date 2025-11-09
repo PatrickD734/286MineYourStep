@@ -43,6 +43,7 @@ public class MineSweeperGameHandler : MonoBehaviour
                 Debug.Log("Clicked nothing");
             }
         }
+
         // Right Click Detection
         else if (Input.GetMouseButtonDown(1))
         {
@@ -58,6 +59,10 @@ public class MineSweeperGameHandler : MonoBehaviour
                 }
             }
         }
+
+        //Do an if statement for Input = 1(RightClick) Copy the code from above but instead of calling
+        //HandleTileClick call HandleFlagClick
+
     }
 
     public static Vector3 GetMousePosition(Vector3 screenPosition, Camera worldCamera)
@@ -80,12 +85,9 @@ public class MineSweeperGameHandler : MonoBehaviour
         {
             MapGridObject.Type gridType = map.RevealGridPosition(mapGridObject);
         }
-        else
-        {
-            Debug.Log("Flag");
-        }
     }
 
+<<<<<<< HEAD
     private void HandleFlagClick(int x, int y, GameObject tile)
     {
         TileComponent tileComponent = tile.GetComponent<TileComponent>();
@@ -114,3 +116,19 @@ public class MineSweeperGameHandler : MonoBehaviour
     }
 
 }
+=======
+    /*
+    private void HandleFlagClick(int x, int y, GameObject tile)
+    {
+       if (!tile.GetComponent<TileComponent>().isFlagged)
+       {
+            //Add code to get the flag prefab from the GameObject tile to set active true
+            set tile component is flagged to true
+       }else{
+            //Add code to get the flag prefab from the GameObject tile to set active false
+            set tile component is flagged to false
+       }
+    }
+    */
+}
+>>>>>>> origin/main
