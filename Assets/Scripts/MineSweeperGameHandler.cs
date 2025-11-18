@@ -8,7 +8,7 @@ public class MineSweeperGameHandler : MonoBehaviour
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     private Map map;
     private bool isGameActive;
-    int flagCount = 40;
+    public int flagCount = 40;
 
     void Start()
     {
