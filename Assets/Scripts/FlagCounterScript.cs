@@ -4,7 +4,15 @@ public class FlagCounterScript : MonoBehaviour
 {
     public Text flagCT;
     public MineSweeperGameHandler fl;
+
+    private void Start()
+    {
+        fl = GameObject.FindFirstObjectByType<MineSweeperGameHandler>();
+    }
     void Update (){
-        flagCT.text = "Flags left: " + fl.flagCount; 
+        if (fl != null)
+        {
+            flagCT.text = "Flags left: " + fl.flagCount;
+        }
     }
 }
