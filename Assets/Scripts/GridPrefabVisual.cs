@@ -109,11 +109,12 @@ public class GridPrefabVisual : MonoBehaviour
             switch (mapGridObject.GetGridType())
             {
                 default:
+                //Game end here
                 case MapGridObject.Type.Mine:
                     indicatorText.SetText("Mine");
                     break;
                 case MapGridObject.Type.Empty:
-                    indicatorText.SetText("Emp");
+                    indicatorText.SetText("Empty");
                     break;
                 case MapGridObject.Type.Mine_Num1:
                     indicatorText.SetText("1");

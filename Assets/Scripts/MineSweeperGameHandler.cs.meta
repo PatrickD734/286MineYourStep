@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: c7acee1d0634fe74c9878a23b6e3d2ac
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gridPrefabVisual: {instanceID: 0}
+  - flagPrefab: {fileID: 5817420224202085025, guid: 3dab1ef09c46ebe4d83d0aca4eebf48a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
