@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.92182, y: 0, z: 30.76683}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.2, y: 0.1, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2191152034505213836}
@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TileComponent
   rend: {fileID: 1748320270538399270}
   isFlagged: 0
+  flagInstance: {fileID: 0}
   x: 0
   y: 0
 --- !u!65 &2079518746930247677

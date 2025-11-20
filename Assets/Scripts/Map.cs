@@ -7,7 +7,7 @@ public class Map
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Map()
     {
-        grid = new Grid<MapGridObject>(16, 16, 2.5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
+        grid = new Grid<MapGridObject>(16, 16, 5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
         int minesPlaced = 0;
         int mineAmount = 40;
 
