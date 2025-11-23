@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//Represents one tile posititon
+//Represents one tile posititon and contains all the tile types
 public class MapGridObject
 {
     public enum Type

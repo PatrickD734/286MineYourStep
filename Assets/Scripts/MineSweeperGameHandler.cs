@@ -1,10 +1,11 @@
 using UnityEngine;
 
+//Handles the game of Minesweeper
 public class MineSweeperGameHandler : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-
+    
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     private Map map;
     private bool isGameActive;
@@ -14,13 +15,17 @@ public class MineSweeperGameHandler : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        //Generates the Minesweeper Map
         map = new Map();
+        //Setsup the individual properties of every tile
         gridPrefabVisual.Setup(map.GetGrid());
+        //Activates game
         isGameActive = true;
     }
 
     private void Update()
     {
+        //Mine Digging Detection
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -45,7 +50,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             }
         }
 
-        // Right Click Detection
+        // Flag detection Detection
         else if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

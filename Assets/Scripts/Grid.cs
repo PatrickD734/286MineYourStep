@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
+
+//This code creates a grid of certain size tiles which will be manipulated by the Map code file
 public class Grid<TGridObject>
 {
     public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChange;
@@ -20,6 +22,7 @@ public class Grid<TGridObject>
     public const int sortingOrderDefault = 5000;
     private Vector3 origin;
 
+    //Creates the grid of text that will be used to show numbers
     public static TextMesh CreateWorldText(Transform parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment, int sortingOrder)
     {
         GameObject gameObject = new GameObject("World_text", typeof(TextMesh));
@@ -37,6 +40,8 @@ public class Grid<TGridObject>
         textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
         return textMesh;
     }
+
+    //Creation of Grid
    public Grid(int width, int height, float cellSize, Vector3 origin, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject)
     {
         this.width = width;
@@ -44,8 +49,11 @@ public class Grid<TGridObject>
         this.cellSize = cellSize;
         this.origin = origin;
 
+        //Creats an array of Grid Objects with properties of width and height
         gridArray = new TGridObject[width, height];
 
+
+        //Shows each tile's creation and position in the debug
         bool debug = false;
             TextMesh[,] debugTextArray = new TextMesh[width, height];
             for (int i = 0; i < width; i++)
@@ -80,6 +88,7 @@ public class Grid<TGridObject>
         
     }
 
+    //Classes to get a Grid's properties
     public int GetWidth()
     {
         return width;
@@ -103,6 +112,7 @@ public class Grid<TGridObject>
         z = Mathf.FloorToInt((worldPosition - origin).z / cellSize);
     }
 
+    //Sets the width and height of grid
     public void SetValue(int x, int y, TGridObject value)
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
@@ -112,6 +122,7 @@ public class Grid<TGridObject>
         }
     }
 
+    //Update the grid with nex x and y coordinates
     public void TriggerGridObjectChanged(int x, int y)
     {
         OnGridObjectChange?.Invoke(this, new OnGridObjectChangedEventArgs { x = x, y = y });
