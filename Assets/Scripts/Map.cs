@@ -3,45 +3,53 @@ using System.Collections.Generic;
 
 public class Map
 {
+    private bool firstTileClick = false;
     private Grid<MapGridObject> grid;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Map()
     {
-        grid = new Grid<MapGridObject>(16, 16, 5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
+        grid = new Grid<MapGridObject>(16, 16, 2.5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
+    }
+    
+    private void generateMap(int firstX, int firstY)
+    {
         int minesPlaced = 0;
         int mineAmount = 40;
-
-        while(minesPlaced < mineAmount)
+        List<MapGridObject> firstNeighbourList = GetNeighbourList(firstX, firstY);
+        while (minesPlaced < mineAmount)
         {
             int x = UnityEngine.Random.Range(0, grid.GetWidth());
             int y = UnityEngine.Random.Range(0, grid.GetHeight());
 
             MapGridObject mapGridObject = grid.GetGridObject(x, y);
-            if(mapGridObject.GetGridType() != MapGridObject.Type.Mine)
+            if (mapGridObject.GetGridType() != MapGridObject.Type.Mine && !(x == firstX && y == firstY))
             {
-                mapGridObject.SetGridType(MapGridObject.Type.Mine);
-                minesPlaced++;
-                //Debug.Log("Mine Placed");
+                if(!checkNeighbourList(firstNeighbourList, x, y))
+                {
+                    mapGridObject.SetGridType(MapGridObject.Type.Mine);
+                    minesPlaced++;
+                    //Debug.Log("Mine Placed");
+                }        
             }
         }
 
-        for(int x = 0; x < grid.GetWidth(); x++)
+        for (int x = 0; x < grid.GetWidth(); x++)
         {
-            for(int y = 0; y < grid.GetHeight(); y++)
+            for (int y = 0; y < grid.GetHeight(); y++)
             {
                 MapGridObject mapGridObject = grid.GetGridObject(x, y);
-                if(mapGridObject.GetGridType() == MapGridObject.Type.Empty)
+                if (mapGridObject.GetGridType() == MapGridObject.Type.Empty)
                 {
                     List<MapGridObject> neighbourList = GetNeighbourList(x, y);
                     int mineCount = 0;
-                    foreach(MapGridObject neighbour in neighbourList)
+                    foreach (MapGridObject neighbour in neighbourList)
                     {
-                        if(neighbour.GetGridType() == MapGridObject.Type.Mine)
+                        if (neighbour.GetGridType() == MapGridObject.Type.Mine)
                         {
                             mineCount++;
                         }
                     }
-                    
+
                     switch (mineCount)
                     {
                         case 1: mapGridObject.SetGridType(MapGridObject.Type.Mine_Num1); break;
@@ -57,7 +65,6 @@ public class Map
             }
         }
     }
-    
     private List<MapGridObject> GetNeighbourList(MapGridObject mapGridObject)
     {
         return GetNeighbourList(mapGridObject.GetX(), mapGridObject.GetY());
@@ -93,6 +100,18 @@ public class Map
 
     }
 
+    private bool checkNeighbourList(List<MapGridObject> neighbourlist, int x, int y)
+    {
+        foreach (MapGridObject neighbour in neighbourlist)
+        {
+            if (neighbour.GetX() == x && neighbour.GetY() == y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Grid<MapGridObject> GetGrid()
     {
         return grid;
@@ -105,6 +124,11 @@ public class Map
     }
     public MapGridObject.Type RevealGridPosition(MapGridObject mapGridObject)
     {
+        if (!firstTileClick)
+        {
+            generateMap(mapGridObject.GetX(), mapGridObject.GetY());
+            firstTileClick = true;
+        }
         mapGridObject.Reveal();
         if (mapGridObject.GetGridType() == MapGridObject.Type.Empty)
         {

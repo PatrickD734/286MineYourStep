@@ -90,8 +90,9 @@ public class MineSweeperGameHandler : MonoBehaviour
 
     private void HandleFlagClick(int x, int y, GameObject tile)
     {
+        MapGridObject mapGridObject = map.GetGrid().GetGridObject(x, y);
         TileComponent tileComponent = tile.GetComponent<TileComponent>();
-        if (!tileComponent.isFlagged && flagCount > 0)
+        if (!tileComponent.isFlagged && flagCount > 0 && !mapGridObject.IsRevealed())
         {
             //Gets the flag prefab from the GameObject tile to set active true
             Transform flagTransform = tile.transform.Find("Flag");
@@ -103,7 +104,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             tileComponent.isFlagged = true;
             flagCount--;
         }
-        else
+        else if(flagCount < 40)
         {
             //Gets the flag prefab from the GameObject tile to set active false
             Transform flagTransform = tile.transform.Find("Flag");
