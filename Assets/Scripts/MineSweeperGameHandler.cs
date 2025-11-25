@@ -1,10 +1,11 @@
 using UnityEngine;
 
+//Handles the game of Minesweeper
 public class MineSweeperGameHandler : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-
+    
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     private Map map;
     private bool isGameActive;
@@ -14,13 +15,17 @@ public class MineSweeperGameHandler : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        //Generates the Minesweeper Map
         map = new Map();
+        //Setsup the individual properties of every tile
         gridPrefabVisual.Setup(map.GetGrid());
+        //Activates game
         isGameActive = true;
     }
 
     private void Update()
     {
+        //Mine Digging Detection
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -45,7 +50,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             }
         }
 
-        // Right Click Detection
+        // Flag detection Detection
         else if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -90,8 +95,9 @@ public class MineSweeperGameHandler : MonoBehaviour
 
     private void HandleFlagClick(int x, int y, GameObject tile)
     {
+        MapGridObject mapGridObject = map.GetGrid().GetGridObject(x, y);
         TileComponent tileComponent = tile.GetComponent<TileComponent>();
-        if (!tileComponent.isFlagged && flagCount > 0)
+        if (!tileComponent.isFlagged && flagCount > 0 && !mapGridObject.IsRevealed())
         {
             //Gets the flag prefab from the GameObject tile to set active true
             Transform flagTransform = tile.transform.Find("Flag");
@@ -103,7 +109,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             tileComponent.isFlagged = true;
             flagCount--;
         }
-        else
+        else if(flagCount < 40)
         {
             //Gets the flag prefab from the GameObject tile to set active false
             Transform flagTransform = tile.transform.Find("Flag");
