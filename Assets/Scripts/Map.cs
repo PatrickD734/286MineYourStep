@@ -3,45 +3,64 @@ using System.Collections.Generic;
 
 public class Map
 {
+    private bool firstTileClick = false;
     private Grid<MapGridObject> grid;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Map()
     {
-        grid = new Grid<MapGridObject>(16, 16, 2.5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
+        //Creates a grid using the Grid code File
+        grid = new Grid<MapGridObject>(16, 16, 5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
+    }
+    
+    //Generates a map of 40 mines but avoids placing mines in the area of the a person's first click
+    private void generateMap(int firstX, int firstY)
+    {
         int minesPlaced = 0;
         int mineAmount = 40;
-
-        while(minesPlaced < mineAmount)
+        //Get neighbours of first clicked tile
+        List<MapGridObject> firstNeighbourList = GetNeighbourList(firstX, firstY);
+        while (minesPlaced < mineAmount)
         {
+            //Gets a random tile from grid's width and height range
             int x = UnityEngine.Random.Range(0, grid.GetWidth());
             int y = UnityEngine.Random.Range(0, grid.GetHeight());
 
+            //Creates a mapGridObject based on that specific tile
             MapGridObject mapGridObject = grid.GetGridObject(x, y);
-            if(mapGridObject.GetGridType() != MapGridObject.Type.Mine)
+            //Compares the tile to first tile
+            if (mapGridObject.GetGridType() != MapGridObject.Type.Mine && !(x == firstX && y == firstY))
             {
-                mapGridObject.SetGridType(MapGridObject.Type.Mine);
-                minesPlaced++;
-                //Debug.Log("Mine Placed");
+                //Compares tiles to first tile's neighbours
+                if(!checkNeighbourList(firstNeighbourList, x, y))
+                {
+                    //Changes tile to a Mine if all conditions are passed
+                    mapGridObject.SetGridType(MapGridObject.Type.Mine);
+                    minesPlaced++;
+                }        
             }
         }
 
-        for(int x = 0; x < grid.GetWidth(); x++)
+        //Sets the rest of the non-mine tiles to respective numbered tiles
+        for (int x = 0; x < grid.GetWidth(); x++)
         {
-            for(int y = 0; y < grid.GetHeight(); y++)
+            for (int y = 0; y < grid.GetHeight(); y++)
             {
                 MapGridObject mapGridObject = grid.GetGridObject(x, y);
-                if(mapGridObject.GetGridType() == MapGridObject.Type.Empty)
+                if (mapGridObject.GetGridType() == MapGridObject.Type.Empty)
                 {
+                    //Makes a list of a tile's neighbours
                     List<MapGridObject> neighbourList = GetNeighbourList(x, y);
                     int mineCount = 0;
-                    foreach(MapGridObject neighbour in neighbourList)
+                    //Checks every neighbour for mines and adds it to minecount
+                    foreach (MapGridObject neighbour in neighbourList)
                     {
-                        if(neighbour.GetGridType() == MapGridObject.Type.Mine)
+                        if (neighbour.GetGridType() == MapGridObject.Type.Mine)
                         {
                             mineCount++;
                         }
                     }
-                    
+
+                    //Check mineCount and set tile to respective tile type
                     switch (mineCount)
                     {
                         case 1: mapGridObject.SetGridType(MapGridObject.Type.Mine_Num1); break;
@@ -57,7 +76,7 @@ public class Map
             }
         }
     }
-    
+    //GetNeighbourList functions to create a list of tiles next to the arguement tile
     private List<MapGridObject> GetNeighbourList(MapGridObject mapGridObject)
     {
         return GetNeighbourList(mapGridObject.GetX(), mapGridObject.GetY());
@@ -65,7 +84,7 @@ public class Map
     private List<MapGridObject> GetNeighbourList(int x, int y)
     {
         List<MapGridObject> neighbourList = new List<MapGridObject>();
-        
+        //Checks all directions
         if (x - 1 >= 0)
         {
             //Left
@@ -93,11 +112,25 @@ public class Map
 
     }
 
+    //checkNeighbourList function to see if a tile is in a neighbour list 
+    private bool checkNeighbourList(List<MapGridObject> neighbourlist, int x, int y)
+    {
+        foreach (MapGridObject neighbour in neighbourlist)
+        {
+            if (neighbour.GetX() == x && neighbour.GetY() == y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Grid<MapGridObject> GetGrid()
     {
         return grid;
     }
     
+    //Reveals position of a tile
     public MapGridObject.Type RevealGridPosition(Vector3 worldPosition)
     {
         MapGridObject mapGridObject = grid.GetGridObject(worldPosition);
@@ -105,7 +138,15 @@ public class Map
     }
     public MapGridObject.Type RevealGridPosition(MapGridObject mapGridObject)
     {
+        //Generates the map after the first click
+        //Checks it the click is the first click
+        if (!firstTileClick)
+        {
+            generateMap(mapGridObject.GetX(), mapGridObject.GetY());
+            firstTileClick = true;
+        }
         mapGridObject.Reveal();
+        //Checks if neighbour tile is empty and reveals those tiles too
         if (mapGridObject.GetGridType() == MapGridObject.Type.Empty)
         {
             List<MapGridObject> checkNeighbourList = new List<MapGridObject>();
