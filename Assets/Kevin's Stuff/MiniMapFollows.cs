@@ -7,7 +7,7 @@ public class MiniMapFollows : MonoBehaviour
 
     void LateUpdate()
     {
-        if (player = null) { 
+        if (player == null) {
             return; 
         } //basically saying if no player object exists, have the output be nothing
         else
