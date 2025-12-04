@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 
-
+//Handles the prefaba of the grid
 public class GridPrefabVisual : MonoBehaviour
 {
     public static GridPrefabVisual Instance { get; private set; }
@@ -21,6 +22,7 @@ public class GridPrefabVisual : MonoBehaviour
         visualNodeList = new List<Transform>();
     }
 
+    //Creates the grid of prefabs based on the grids positioning
     public void Setup(Grid<MapGridObject> grid)
     {
         this.grid = grid;
@@ -63,7 +65,8 @@ public class GridPrefabVisual : MonoBehaviour
             }
         }
     }
-
+    
+    //Update the prefab
     private void Grid_OnGridObjectChanged(object sender, Grid<MapGridObject>.OnGridObjectChangedEventArgs e)
     {
         updateVisual = true;
@@ -85,6 +88,7 @@ public class GridPrefabVisual : MonoBehaviour
         }
     }
 
+    //Sets the text of every tile to empty
     private void HideNodeVisuals()
     {
         foreach (Transform visualNodetransform in visualNodeList)
@@ -100,6 +104,7 @@ public class GridPrefabVisual : MonoBehaviour
         return visualNodeTransform;
     }
 
+    //Sets up the text of the prefab according to tile type
     private void SetupVisualNode(Transform visualNodeTransform, MapGridObject mapGridObject)
     {
         TextMeshPro indicatorText = visualNodeTransform.Find("TileType").GetComponent<TextMeshPro>();

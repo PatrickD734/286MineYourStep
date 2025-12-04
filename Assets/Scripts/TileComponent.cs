@@ -23,6 +23,7 @@ public class TileComponent : MonoBehaviour
         this.y = y;
     }
 
+    //Changes tile color of mouse hover
     void OnMouseEnter()
     {
         Debug.Log("Mouse Entered");
@@ -36,6 +37,7 @@ public class TileComponent : MonoBehaviour
         }
     }
 
+    //returns tile to old color on mouse exit
     void OnMouseExit()
     {
         Debug.Log("Mouse Exited");

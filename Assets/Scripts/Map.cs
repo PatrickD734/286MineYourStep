@@ -9,7 +9,7 @@ public class Map
     public Map()
     {
         //Creates a grid using the Grid code File
-        grid = new Grid<MapGridObject>(16, 16, 2.5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
+        grid = new Grid<MapGridObject>(16, 16, 5f, Vector3.zero, (Grid<MapGridObject> g, int x, int y) => new MapGridObject(g, x, y));
     }
     
     //Generates a map of 40 mines but avoids placing mines in the area of the a person's first click
