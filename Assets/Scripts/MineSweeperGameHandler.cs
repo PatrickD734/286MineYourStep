@@ -109,7 +109,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             tileComponent.isFlagged = true;
             flagCount--;
         }
-        else if(flagCount < 40)
+        else if(flagCount < 40 && flagCount>0)
         {
             //Gets the flag prefab from the GameObject tile to set active false
             Transform flagTransform = tile.transform.Find("Flag");
