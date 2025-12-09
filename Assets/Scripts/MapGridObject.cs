@@ -3,6 +3,17 @@ using UnityEngine;
 //Represents one tile posititon and contains all the tile types
 public class MapGridObject
 {
+    private GameObject tileObject;
+
+    public void SetTileObject(GameObject obj)
+    {
+        tileObject = obj;
+    }
+
+    public GameObject GetTileObject()
+    {
+        return tileObject;
+    }
     public enum Type
     {
         Empty,

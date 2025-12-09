@@ -46,6 +46,10 @@ public class GridPrefabVisual : MonoBehaviour
                 }
                 tileComponent.Setup(i, j);
                 tileObject.name = $"Tile ({i}, {j}";
+
+                //Assign tile GameObject to its grid object
+                MapGridObject gridObject = grid.GetGridObject(i, j);
+                gridObject.SetTileObject(tileObject);
             }
 
         }
@@ -119,7 +123,7 @@ public class GridPrefabVisual : MonoBehaviour
                     indicatorText.SetText("Mine");
                     break;
                 case MapGridObject.Type.Empty:
-                    indicatorText.SetText("Empty");
+                    indicatorText.SetText(" ");
                     break;
                 case MapGridObject.Type.Mine_Num1:
                     indicatorText.SetText("1");
