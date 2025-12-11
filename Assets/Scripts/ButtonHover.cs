@@ -11,6 +11,7 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Button targetButton;
     private TMP_Text buttonText;
     private string temp;
+    public AudioSource hoverSource;
     private void Start()
     {
         buttonText = targetButton.GetComponentInChildren<TMP_Text>();
@@ -21,6 +22,7 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         buttonText.text = temp + "   <";
         Debug.Log("Button Detected");
+        hoverSource.Play();
     }
 
     public void OnPointerExit(PointerEventData eventData)
