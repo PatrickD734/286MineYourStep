@@ -91,6 +91,7 @@ public class MineSweeperGameHandler : MonoBehaviour
         {
             MapGridObject.Type gridType = map.RevealGridPosition(mapGridObject);
         }
+
     }
 
     private void HandleFlagClick(int x, int y, GameObject tile)

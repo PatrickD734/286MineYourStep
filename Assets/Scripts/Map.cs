@@ -131,11 +131,14 @@ public class Map
     }
     
     //Reveals position of a tile
+    
     public MapGridObject.Type RevealGridPosition(Vector3 worldPosition)
     {
         MapGridObject mapGridObject = grid.GetGridObject(worldPosition);
         return RevealGridPosition(mapGridObject);
     }
+    
+    //Reveal Grid Positon, add Lose Condition for hitting a Mine!
     public MapGridObject.Type RevealGridPosition(MapGridObject mapGridObject)
     {
         //Generates the map after the first click
@@ -146,6 +149,10 @@ public class Map
             firstTileClick = true;
         }
         mapGridObject.Reveal();
+        GameObject tileObject = mapGridObject.GetTileObject();
+        if (tileObject == null) return mapGridObject.GetGridType();
+        Transform dirtPile = tileObject.transform.Find("Dirt");
+        dirtPile.gameObject.SetActive(false);
         //Checks if neighbour tile is empty and reveals those tiles too
         if (mapGridObject.GetGridType() == MapGridObject.Type.Empty)
         {
@@ -171,6 +178,10 @@ public class Map
                                 neighbourList.Add(neighbour);
                             }
                         }
+                        GameObject negTileObject = neighbour.GetTileObject();
+                        if (negTileObject == null) continue;
+                        Transform neighbourDirtPile = negTileObject.transform.Find("Dirt");
+                        neighbourDirtPile.gameObject.SetActive(false);
                     }
                 }
 

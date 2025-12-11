@@ -24,26 +24,6 @@ public class LoseWin : MonoBehaviour
     public void SetConditionAndLoad()
     {
         conditionMet = true;
-        CheckConditionAndLoadScene();
-    }
-
-    // Example of health being 0, which triggers the condition
-    public void UpdateVariable(int health)
-    {
-        if (health < 1)
-        {
-            conditionMet = true;
-            CheckConditionAndLoadScene();
-        }
-    }
-
-    private void CheckConditionAndLoadScene()
-    {
-        if (conditionMet)
-        {
-            // Load the result scene
-            SceneManager.LoadScene("ResultScreen");
-        }
     }
 
     public void PlayerWon()
@@ -66,7 +46,7 @@ public class LoseWin : MonoBehaviour
 
     public void OnPlayButton()
     {
-        SceneManager.LoadScene("JoeDoe");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void OnTitleButton()
