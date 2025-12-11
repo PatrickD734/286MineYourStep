@@ -29,7 +29,8 @@ public class MineSweeperGameHandler : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            LayerMask mask = LayerMask.GetMask("TILE");
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity,mask))
             {
                 Debug.Log("hit object: " + hitInfo.collider.name);
                 GameObject clickedObject = hitInfo.collider.gameObject;
@@ -54,7 +55,8 @@ public class MineSweeperGameHandler : MonoBehaviour
         else if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            LayerMask mask = LayerMask.GetMask("TILE");
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, mask))
             {
                 GameObject clickedObject = hitInfo.collider.gameObject;
                 TileComponent tile = clickedObject.GetComponent<TileComponent>();
