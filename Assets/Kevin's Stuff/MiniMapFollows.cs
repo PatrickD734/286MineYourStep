@@ -16,7 +16,7 @@ public class MiniMapFollows : MonoBehaviour
             newPosition.y += height;
             transform.position = newPosition; //All 3 lines track player object position
 
-            transform.rotation = Quaternion.Euler(90f, player.eulerAngles.y, 0f); //Locks position to top down and has the map spin around to match where player is going 
+            transform.rotation = Quaternion.Euler(90f, -(player.eulerAngles.y), 0f); //Locks position to top down and has the map spin around to match where player is going 
         }
 
     }
