@@ -4,8 +4,9 @@ using UnityEngine;
 public class MineSweeperGameHandler : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public AudioSource digSound;
+    public AudioSource background;
 
-    
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     private Map map;
     private bool isGameActive;
@@ -21,6 +22,8 @@ public class MineSweeperGameHandler : MonoBehaviour
         gridPrefabVisual.Setup(map.GetGrid());
         //Activates game
         isGameActive = true;
+
+        background.Play();
     }
 
     private void Update()
@@ -38,6 +41,7 @@ public class MineSweeperGameHandler : MonoBehaviour
                 {
                     HandleTileClick(tile.x, tile.y, clickedObject);
                     Debug.Log("Tile hit!");
+                    digSound.Play();
                 }
                 else
                 {
