@@ -6,6 +6,8 @@ using UnityEditor;
 //Handles the prefaba of the grid
 public class GridPrefabVisual : MonoBehaviour
 {
+    public AudioSource mineExplode;
+    public bool played = false;
     public static GridPrefabVisual Instance { get; private set; }
 
     [SerializeField] private Transform pfGridPrefabVisualNode;
@@ -121,6 +123,10 @@ public class GridPrefabVisual : MonoBehaviour
                 //Game end here
                 case MapGridObject.Type.Mine:
                     indicatorText.SetText("Mine");
+                    if (played == false){
+                    mineExplode.Play();
+                    }
+                    played = true;
                     break;
                 case MapGridObject.Type.Empty:
                     indicatorText.SetText(" ");
