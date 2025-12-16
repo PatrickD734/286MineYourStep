@@ -1,56 +1,98 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class LoseWin : MonoBehaviour
 {
-    public TextMeshProUGUI WinLoseDisplay; // Put the TextMeshProUGUI object here in the Inspector
+    [Header("UI References")]
+    public GameObject gameOverPanel;     // The main panel that shows/hides
+    public TextMeshProUGUI titleText;    // For "VICTORY!" or "GAME OVER!"
+    public TextMeshProUGUI messageText;  // For additional message
 
-    private bool conditionMet = false; // Flag to check for the condition for scene loading
+    [Header("Buttons")]
+    public UnityEngine.UI.Button playAgainButton;
+    public UnityEngine.UI.Button quitButton;
 
-    private void Start()
+    void Start()
     {
-        // Always show "Game has ended" when the scene loads
-        if (WinLoseDisplay != null)
+        // Hide the game over panel at start
+        if (gameOverPanel != null)
         {
-            WinLoseDisplay.text = "Game has ended";
-            WinLoseDisplay.gameObject.SetActive(true);
+            gameOverPanel.SetActive(false);
+        }
+
+        // Setup button listeners
+        if (playAgainButton != null)
+        {
+            playAgainButton.onClick.AddListener(OnPlayAgain);
+        }
+
+        if (quitButton != null)
+        {
+            quitButton.onClick.AddListener(OnQuit);
         }
     }
 
-    public void SetConditionAndLoad()
+    // Call this when player wins
+    public void ShowWinScreen()
     {
-        conditionMet = true;
+        ShowGameOverScreen("VICTORY!", "You cleared all mines!", Color.green);
     }
 
-    public void PlayerWon()
+    // Call this when player loses
+    public void ShowLoseScreen()
     {
-        if (WinLoseDisplay != null)
+        ShowGameOverScreen("GAME OVER", "You hit a mine!", Color.red);
+    }
+
+    private void ShowGameOverScreen(string title, string message, Color color)
+    {
+        if (gameOverPanel != null)
         {
-            WinLoseDisplay.text = "A successful escape!";
-            WinLoseDisplay.gameObject.SetActive(true); // Shows the win text
+            gameOverPanel.SetActive(true);
+
+            if (titleText != null)
+            {
+                titleText.text = title;
+                titleText.color = color;
+            }
+
+            if (messageText != null)
+            {
+                messageText.text = message;
+            }
+
+            // Optional: Pause the game
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
-    public void PlayerLost()
+    // Play Again button callback
+    public void OnPlayAgain()
     {
-        if (WinLoseDisplay != null)
-        {
-            WinLoseDisplay.text = "Subject has failed to escape.";
-            WinLoseDisplay.gameObject.SetActive(true); // Shows the lose text
-        }
+        // Resume game time
+        Time.timeScale = 1f;
+
+        // Reload the current scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void OnPlayButton()
+    // Quit button callback
+    public void OnQuit()
     {
-        SceneManager.LoadScene("GameScene");
+        // Resume game time before quitting
+        Time.timeScale = 1f;
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
-    public void OnTitleButton()
-    {
-        SceneManager.LoadScene("Start Screen");
-    }
+    // Legacy methods for compatibility with old code
+    public void PlayerWon() => ShowWinScreen();
+    public void PlayerLost() => ShowLoseScreen();
 }

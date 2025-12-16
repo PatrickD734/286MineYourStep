@@ -1149,7 +1149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227f14d175aa05944ae87b80366ae303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoseWinScreen
-  WinLoseDisplay: {fileID: 1852839289}
+  gameOverPanel: {fileID: 0}
+  titleText: {fileID: 0}
+  messageText: {fileID: 0}
+  playAgainButton: {fileID: 0}
+  quitButton: {fileID: 0}
 --- !u!1 &1896574419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227f14d175aa05944ae87b80366ae303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoseWinScreen
-  WinLoseDisplay: {fileID: 1852839289}
+  gameOverPanel: {fileID: 0}
+  titleText: {fileID: 1852839289}
+  messageText: {fileID: 0}
+  playAgainButton: {fileID: 0}
+  quitButton: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
