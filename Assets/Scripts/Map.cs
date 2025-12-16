@@ -72,6 +72,28 @@ public class Map
                 }
             }
         }
+
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for (int y = 0; y < grid.GetHeight(); y++)
+            {
+                MapGridObject tile = grid.GetGridObject(x, y);
+                if (tile.GetGridType() != MapGridObject.Type.Mine)
+                {
+                    GameObject mineTileObject = tile.GetTileObject();
+                    if (mineTileObject != null)
+                    {
+                        Transform mineDetect = mineTileObject.transform.Find("MineDetector");
+                        if (mineDetect != null)
+                        {
+                            GameObject.Destroy(mineDetect.gameObject);
+                            // or DestroyImmediate(mineDetect.gameObject); // only if needed in editor
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 
     private List<MapGridObject> GetNeighbourList(MapGridObject mapGridObject)

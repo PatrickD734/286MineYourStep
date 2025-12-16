@@ -5,15 +5,18 @@ public class MineSweeperGameHandler : MonoBehaviour
 {
     public AudioSource digSound;
     public AudioSource background;
+    public AudioSource mineExplode;
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     [SerializeField] private LoseWin loseWinHandler;
 
     private Map map;
     private bool isGameActive;
     public int flagCount = 40;
+    
 
     void Start()
     {
+        isGameActive = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         map = new Map();
@@ -42,6 +45,7 @@ public class MineSweeperGameHandler : MonoBehaviour
         // Restart shortcut - R key OR Right Click
         if (Input.GetKeyDown(KeyCode.R) || (Input.GetMouseButtonDown(1) && !isGameActive))
         {
+            Time.timeScale = 1;
             Debug.Log("Restarting game with R key or Right Click");
             UnityEngine.SceneManagement.SceneManager.LoadScene(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
@@ -60,7 +64,7 @@ public class MineSweeperGameHandler : MonoBehaviour
         }
     }
 
-  
+     
     private void ForceGameOver(bool didWin)
     {
         if (isGameActive) // Only trigger if game is still active
@@ -88,6 +92,24 @@ public class MineSweeperGameHandler : MonoBehaviour
         }
     }
 
+    public static MineSweeperGameHandler Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
+    public void PlayerHitMine()
+    {
+
+        if (!isGameActive) return;
+        mineExplode.Play();
+        Debug.Log("Player touched a mine!");
+        ForceGameOver(false); // lose
+    }
     private void HandleLeftClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -146,6 +168,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             }
             else
             {
+                mineExplode.Play();
                 loseWinHandler.ShowLoseScreen();
             }
         }
@@ -159,6 +182,7 @@ public class MineSweeperGameHandler : MonoBehaviour
    
     private void ShowFallbackUI(bool didWin)
     {
+        Time.timeScale = 0;
         Debug.Log("Creating fallback UI");
 
         GameObject canvasObj = new GameObject("GameOverCanvas");
@@ -191,23 +215,45 @@ public class MineSweeperGameHandler : MonoBehaviour
         textRect.offsetMin = Vector2.zero;
         textRect.offsetMax = Vector2.zero;
 
-        // ADDED A RESTART BUTTON TO FALLBACK UI
+        // Create Restart Button
         GameObject btnObj = new GameObject("RestartButton");
         btnObj.transform.SetParent(panel.transform);
-        UnityEngine.UI.Button btn = btnObj.AddComponent<UnityEngine.UI.Button>();
-        UnityEngine.UI.Text btnText = btnObj.AddComponent<UnityEngine.UI.Text>();
-        btnText.text = "RESTART (R Key)";
-        btnText.fontSize = 24;
-        btnText.color = Color.white;
-        btnText.alignment = TextAnchor.MiddleCenter;
 
-        RectTransform btnRect = btn.GetComponent<RectTransform>();
+        // REQUIRED components
+        RectTransform btnRect = btnObj.AddComponent<RectTransform>();
+        UnityEngine.UI.Image btnImage = btnObj.AddComponent<UnityEngine.UI.Image>();
+        UnityEngine.UI.Button btn = btnObj.AddComponent<UnityEngine.UI.Button>();
+
+        btnImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+
+        // Position
         btnRect.anchorMin = new Vector2(0.3f, 0.2f);
         btnRect.anchorMax = new Vector2(0.7f, 0.3f);
         btnRect.offsetMin = Vector2.zero;
         btnRect.offsetMax = Vector2.zero;
 
-        btn.onClick.AddListener(() => {
+        // Create Text child
+        GameObject btnTextObj = new GameObject("Text");
+        btnTextObj.transform.SetParent(btnObj.transform);
+
+        UnityEngine.UI.Text btnText = btnTextObj.AddComponent<UnityEngine.UI.Text>();
+        btnText.text = "RESTART (R Key)";
+        btnText.fontSize = 24;
+        btnText.color = Color.white;
+        btnText.alignment = TextAnchor.MiddleCenter;
+        btnText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+
+        // Text Rect
+        RectTransform textButton = btnText.GetComponent<RectTransform>();
+        textButton.anchorMin = Vector2.zero;
+        textButton.anchorMax = Vector2.one;
+        textButton.offsetMin = Vector2.zero;
+        textButton.offsetMax = Vector2.zero;
+
+        // Button action
+        btn.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1f;
             UnityEngine.SceneManagement.SceneManager.LoadScene(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         });

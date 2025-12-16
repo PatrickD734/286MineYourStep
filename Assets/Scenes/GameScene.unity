@@ -611,6 +611,7 @@ GameObject:
   - component: {fileID: 374058912}
   - component: {fileID: 374058914}
   - component: {fileID: 374058915}
+  - component: {fileID: 374058916}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -784,6 +785,18 @@ MonoBehaviour:
   gravity: -9.81
   characterController: {fileID: 374058912}
   cam: {fileID: 330585545}
+--- !u!114 &374058916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374058906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc94e59e34079824a999fbb0ba6cc2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMineDetector
 --- !u!1001 &522082951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1591,7 +1604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95c34a4cd81f9942ac27c44f3b3ce85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridPrefabVisual
-  mineExplode: {fileID: 1198427061}
   played: 0
   pfGridPrefabVisualNode: {fileID: 2967188636351824983, guid: 51cff57238a24ca4cb3a5c32e0ab8159, type: 3}
   tilePrefab: {fileID: 2305823477310814290, guid: 51cff57238a24ca4cb3a5c32e0ab8159, type: 3}
@@ -2004,7 +2016,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MineSweeperGameHandler
   digSound: {fileID: 303392995}
   background: {fileID: 843773299}
+  mineExplode: {fileID: 1198427061}
   gridPrefabVisual: {fileID: 1245430349}
+  loseWinHandler: {fileID: 0}
   flagCount: 40
 --- !u!1 &2048193630
 GameObject:
