@@ -10,6 +10,7 @@ public class Map
     private int totalTiles;
     private bool gameEnded = false;
 
+
     public Map()
     {
         grid = new Grid<MapGridObject>(16, 16, 5f, Vector3.zero,
@@ -160,8 +161,6 @@ public class Map
         if (mapGridObject.GetGridType() == MapGridObject.Type.Mine)
         {
             gameEnded = true;
-
-            mapGridObject.Reveal();
             GameObject mineTileObject = mapGridObject.GetTileObject();
             if (mineTileObject != null)
             {

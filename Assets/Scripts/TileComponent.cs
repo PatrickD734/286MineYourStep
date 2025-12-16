@@ -12,6 +12,26 @@ public class TileComponent : MonoBehaviour
     public int x;
     public int y;
 
+    private Collider mineDetector;
+
+    private void Awake()
+    {
+        // Find the MineDetector collider on this tile
+        Transform detector = transform.Find("MineDetector");
+        if (detector != null)
+            mineDetector = detector.GetComponent<Collider>();
+    }
+
+    // Call this whenever the flag state changes
+    public void UpdateFlaggedState(bool flagged)
+    {
+        isFlagged = flagged;
+
+        if (mineDetector != null)
+        {
+            mineDetector.enabled = !flagged; // disable collider if flagged
+        }
+    }
     public void Setup(int x, int y)
     {
         //rend = GetComponentInChildren<Renderer>();

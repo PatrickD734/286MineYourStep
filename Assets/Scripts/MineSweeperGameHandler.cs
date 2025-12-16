@@ -5,13 +5,13 @@ public class MineSweeperGameHandler : MonoBehaviour
 {
     public AudioSource digSound;
     public AudioSource background;
-    public AudioSource mineExplode;
     [SerializeField] private GridPrefabVisual gridPrefabVisual;
     [SerializeField] private LoseWin loseWinHandler;
 
     private Map map;
     private bool isGameActive;
     public int flagCount = 40;
+    public AudioSource mineExplode;
     
 
     void Start()
@@ -82,6 +82,8 @@ public class MineSweeperGameHandler : MonoBehaviour
                 }
                 else
                 {
+                    mineExplode.Play();
+                    Debug.Log("Mine explode sound played in Force Game");
                     loseWinHandler.ShowLoseScreen();
                 }
             }
@@ -106,8 +108,8 @@ public class MineSweeperGameHandler : MonoBehaviour
     {
 
         if (!isGameActive) return;
-        mineExplode.Play();
         Debug.Log("Player touched a mine!");
+        mineExplode.Play();
         ForceGameOver(false); // lose
     }
     private void HandleLeftClick()
@@ -168,7 +170,7 @@ public class MineSweeperGameHandler : MonoBehaviour
             }
             else
             {
-                mineExplode.Play();
+                Debug.Log("Mine explode sound played in Game Handle");
                 loseWinHandler.ShowLoseScreen();
             }
         }
@@ -192,7 +194,14 @@ public class MineSweeperGameHandler : MonoBehaviour
         GameObject panel = new GameObject("Panel");
         panel.transform.SetParent(canvas.transform);
         UnityEngine.UI.Image panelImage = panel.AddComponent<UnityEngine.UI.Image>();
-        panelImage.color = new Color(0, 0, 0, 0.8f);
+        if (didWin)
+        {
+            panelImage.color = new Color(0, 0, 0, 0.8f);
+        }
+        else
+        {
+            panelImage.color = new Color(0, 0, 0, 1f);
+        }
 
         RectTransform panelRect = panel.GetComponent<RectTransform>();
         panelRect.anchorMin = Vector2.zero;
@@ -205,6 +214,10 @@ public class MineSweeperGameHandler : MonoBehaviour
         UnityEngine.UI.Text text = textObj.AddComponent<UnityEngine.UI.Text>();
         text.text = didWin ? "VICTORY!" : "GAME OVER!"; // Use parameter
         text.fontSize = 48;
+        if (!didWin)
+        {
+            mineExplode.Play();
+        }
         text.color = didWin ? Color.green : Color.red; // Use parameter
         text.alignment = TextAnchor.MiddleCenter;
         text.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -268,14 +281,16 @@ public class MineSweeperGameHandler : MonoBehaviour
         {
             Transform flagTransform = tile.transform.Find("Flag");
             if (flagTransform != null) flagTransform.gameObject.SetActive(true);
-            tileComponent.isFlagged = true;
+
+            tileComponent.UpdateFlaggedState(true);
             flagCount--;
         }
         else if (tileComponent.isFlagged && flagCount < 40)
         {
             Transform flagTransform = tile.transform.Find("Flag");
             if (flagTransform != null) flagTransform.gameObject.SetActive(false);
-            tileComponent.isFlagged = false;
+
+            tileComponent.UpdateFlaggedState(false);
             flagCount++;
         }
     }
